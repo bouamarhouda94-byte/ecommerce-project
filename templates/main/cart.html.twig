@@ -1,0 +1,279 @@
+{# templates/cart/index.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Shopping Cart - Our Store{% endblock %}
+
+{% block body %}
+
+<!-- Header -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+    <div class="container">
+
+        <a class="navbar-brand" href="{{ path('home') }}">
+            Our Store
+        </a>
+
+        <button class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarNav">
+
+            <span class="navbar-toggler-icon"></span>
+
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+
+            <ul class="navbar-nav ms-auto">
+
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="{{ path('home') }}">
+                        Products
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link active"
+                       href="{{ path('cart_show') }}">
+                        Cart
+                    </a>
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</nav>
+
+<!-- Shopping Cart Section -->
+<div class="container my-5">
+
+    <h1 class="mb-4">Shopping Cart</h1>
+
+    <div class="row">
+
+        <!-- Cart Items -->
+        <div class="col-lg-8">
+
+            <div class="card mb-3">
+
+                <div class="card-body">
+
+                    <div class="table-responsive">
+
+                        <table class="table align-middle">
+
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                {% for item in cartItems %}
+
+                                <tr>
+
+                                    <td>
+
+                                        <div class="d-flex align-items-center">
+
+                                            <img src="{{ asset('images/thumbnail.png') }}"
+                                                 class="img-thumbnail me-3"
+                                                 alt="Product"
+                                                 style="width: 80px; height: 80px; object-fit: cover;">
+
+                                            <div>
+
+                                                <h6 class="mb-0">
+                                                    {{ item.product.name }}
+                                                </h6>
+
+                                                <small class="text-muted">
+                                                    {{ item.product.description }}
+                                                </small>
+
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+                                    <td>
+                                        {{ item.product.price }} $
+                                    </td>
+
+                                    <td>
+                                        {{ item.quantity }}
+                                    </td>
+
+                                    <td class="fw-bold">
+                                        {{ item.product.price * item.quantity }} $
+                                    </td>
+
+                                    <td>
+
+                                        <a href="{{ path('cart_remove', {
+                                            id: item.product.id
+                                        }) }}"
+                                           class="btn btn-sm btn-outline-danger">
+
+                                            Remove
+
+                                        </a>
+
+                                    </td>
+
+                                </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <a href="{{ path('home') }}"
+               class="btn btn-outline-primary">
+
+                ← Continue Shopping
+
+            </a>
+
+        </div>
+
+        <!-- Order Summary -->
+        <div class="col-lg-4">
+
+            <div class="card">
+
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Order Summary</h5>
+                </div>
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Subtotal:</span>
+                        <span>{{ total }} $</span>
+                    </div>
+
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Shipping:</span>
+                        <span>10 $</span>
+                    </div>
+
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Tax:</span>
+                        <span>5 $</span>
+                    </div>
+
+                    <hr>
+
+                    <div class="d-flex justify-content-between mb-3">
+
+                        <strong>Total:</strong>
+
+                        <strong class="text-success">
+                            {{ total + 10 + 5 }} $
+                        </strong>
+
+                    </div>
+
+                    <div class="d-grid">
+
+                        <button class="btn btn-success btn-lg">
+                            Proceed to Checkout
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Promo Code -->
+            <div class="card mt-3">
+
+                <div class="card-body">
+
+                    <h6 class="card-title">
+                        Have a promo code?
+                    </h6>
+
+                    <form>
+
+                        <div class="input-group">
+
+                            <input type="text"
+                                   class="form-control"
+                                   placeholder="Enter code">
+
+                            <button class="btn btn-outline-secondary"
+                                    type="submit">
+
+                                Apply
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Footer -->
+<footer class="bg-dark text-white mt-5 py-4">
+
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-md-6">
+
+                <h5>Our Store</h5>
+
+                <p>
+                    Quality products at affordable prices
+                </p>
+
+            </div>
+
+            <div class="col-md-6 text-md-end">
+
+                <p>
+                    &copy; 2026 Our Store. All rights reserved.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</footer>
+
+{% endblock %}

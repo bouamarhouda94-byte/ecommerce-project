@@ -1,0 +1,118 @@
+{# templates/home/index.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Home - Our Store{% endblock %}
+
+{% block body %}
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+
+        <a class="navbar-brand" href="#">Our Store</a>
+
+        <div class="ms-auto d-flex align-items-center gap-3">
+
+            {% if app.user %}
+                <span class="text-white">
+                    Bienvenue, {{ app.user.email }} !
+                </span>
+
+                <a href="{{ path('app_logout') }}"
+                   class="btn btn-outline-danger btn-sm">
+                    Déconnexion
+                </a>
+
+            {% else %}
+
+                <a href="{{ path('app_login') }}"
+                   class="btn btn-outline-light btn-sm">
+                    Connexion
+                </a>
+
+                <a href="{{ path('app_register') }}"
+                   class="btn btn-light btn-sm">
+                    Inscription
+                </a>
+
+            {% endif %}
+
+            <a href="{{ path('cart_show') }}"
+               class="btn btn-outline-light btn-sm">
+                🛒 Cart
+            </a>
+
+        </div>
+    </div>
+</nav>
+
+<div class="container my-5">
+
+    <div class="text-center mb-5">
+        <h2 class="display-5 fw-bold">
+            Shop by Category
+        </h2>
+
+        <p class="text-muted">
+            Explore our wide range of products
+        </p>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+
+        {% for category in categories %}
+
+            <div class="col">
+
+                <div class="card h-100 shadow-sm">
+
+                    <div class="card-body text-center">
+
+                        <h4 class="card-title">
+                            {{ category.name }}
+                        </h4>
+
+                        <p class="card-text text-muted">
+                            {{ category.description }}
+                        </p>
+
+                        <a href="{{ path('app_products_by_category', {
+                            id: category.id
+                        }) }}"
+                           class="btn btn-outline-primary">
+
+                            Browse {{ category.name }}
+
+                        </a>
+
+                    </div>
+                </div>
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+</div>
+
+<footer class="bg-dark text-white mt-5 py-4">
+
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-md-6">
+                <h5>Our Store</h5>
+            </div>
+
+            <div class="col-md-6 text-md-end">
+                <p>&copy; 2026 Our Store.</p>
+            </div>
+
+        </div>
+
+    </div>
+
+</footer>
+
+{% endblock %}

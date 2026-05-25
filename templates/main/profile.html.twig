@@ -1,0 +1,400 @@
+{# templates/profile/index.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}My Profile - Our Store{% endblock %}
+
+{% block body %}
+
+<!-- Header -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+    <div class="container">
+
+        <a class="navbar-brand" href="{{ path('home') }}">
+            Our Store
+        </a>
+
+        <button class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarNav">
+
+            <span class="navbar-toggler-icon"></span>
+
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+
+            <ul class="navbar-nav ms-auto">
+
+                <li class="nav-item">
+
+                    <a class="nav-link"
+                       href="{{ path('home') }}">
+
+                        Products
+
+                    </a>
+
+                </li>
+
+                <li class="nav-item">
+
+                    <a class="nav-link"
+                       href="{{ path('cart_show') }}">
+
+                        Cart
+
+                    </a>
+
+                </li>
+
+                <li class="nav-item">
+
+                    <a class="nav-link active"
+                       href="{{ path('app_profile') }}">
+
+                        Profile
+
+                    </a>
+
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</nav>
+
+<!-- Profile Section -->
+<div class="container my-5">
+
+    <div class="row">
+
+        <!-- Sidebar -->
+        <div class="col-md-3">
+
+            <div class="card shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <img src="{{ asset('images/profile.png') }}"
+                         class="rounded-circle mb-3"
+                         alt="User Avatar"
+                         width="150"
+                         height="150">
+
+                    <h5 class="card-title">
+
+                        {{ app.user.name|default('User') }}
+
+                    </h5>
+
+                    <p class="text-muted">
+
+                        {{ app.user.email }}
+
+                    </p>
+
+                    <hr>
+
+                    <ul class="list-unstyled">
+
+                        <li class="mb-2">
+
+                            <a href="#profile"
+                               class="text-decoration-none">
+
+                                Profile Information
+
+                            </a>
+
+                        </li>
+
+                        <li class="mb-2">
+
+                            <a href="#orders"
+                               class="text-decoration-none">
+
+                                My Orders
+
+                            </a>
+
+                        </li>
+
+                        <li class="mb-2">
+
+                            <a href="#"
+                               class="text-decoration-none">
+
+                                Settings
+
+                            </a>
+
+                        </li>
+
+                        <li class="mb-2">
+
+                            <a href="{{ path('app_logout') }}"
+                               class="text-decoration-none text-danger">
+
+                                Logout
+
+                            </a>
+
+                        </li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-md-9">
+
+            <!-- Profile Information -->
+            <div class="card mb-4 shadow-sm"
+                 id="profile">
+
+                <div class="card-header bg-primary text-white">
+
+                    <h5 class="mb-0">
+                        Profile Information
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="row mb-3">
+
+                        <div class="col-md-6">
+
+                            <label class="fw-bold">
+                                Full Name:
+                            </label>
+
+                            <p>
+                                {{ app.user.name|default('No name') }}
+                            </p>
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label class="fw-bold">
+                                Email:
+                            </label>
+
+                            <p>
+                                {{ app.user.email }}
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="row mb-3">
+
+                        <div class="col-md-6">
+
+                            <label class="fw-bold">
+                                Phone:
+                            </label>
+
+                            <p>
+                                {{ app.user.phone|default('Not added') }}
+                            </p>
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <label class="fw-bold">
+                                Member Since:
+                            </label>
+
+                            <p>
+                                {{ app.user.createdAt|date('F d, Y') }}
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="row mb-3">
+
+                        <div class="col-12">
+
+                            <label class="fw-bold">
+                                Shipping Address:
+                            </label>
+
+                            <p>
+                                {{ app.user.address|default('No address added') }}
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <button class="btn btn-outline-primary">
+
+                        Edit Profile
+
+                    </button>
+
+                </div>
+
+            </div>
+
+            <!-- Orders -->
+            <div class="card shadow-sm"
+                 id="orders">
+
+                <div class="card-header bg-primary text-white">
+
+                    <h5 class="mb-0">
+                        Order History
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    {% for order in orders %}
+
+                        <div class="card mb-3 border">
+
+                            <div class="card-body">
+
+                                <div class="row">
+
+                                    <div class="col-md-8">
+
+                                        <h6 class="card-title">
+
+                                            Order #{{ order.id }}
+
+                                        </h6>
+
+                                        <p class="text-muted mb-2">
+
+                                            Placed on:
+                                            {{ order.createdAt|date('F d, Y') }}
+
+                                        </p>
+
+                                        <p class="mb-1">
+
+                                            <strong>Total:</strong>
+
+                                            {{ order.total }} €
+
+                                        </p>
+
+                                    </div>
+
+                                    <div class="col-md-4 text-md-end">
+
+                                        {% if order.status == 'delivered' %}
+
+                                            <span class="badge bg-success mb-2">
+                                                Delivered
+                                            </span>
+
+                                        {% elseif order.status == 'processing' %}
+
+                                            <span class="badge bg-warning mb-2">
+                                                Processing
+                                            </span>
+
+                                        {% elseif order.status == 'cancelled' %}
+
+                                            <span class="badge bg-danger mb-2">
+                                                Cancelled
+                                            </span>
+
+                                        {% else %}
+
+                                            <span class="badge bg-info mb-2">
+                                                In Transit
+                                            </span>
+
+                                        {% endif %}
+
+                                        <br>
+
+                                        <a href="#"
+                                           class="btn btn-sm btn-outline-primary mt-2">
+
+                                            View Details
+
+                                        </a>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    {% else %}
+
+                        <div class="alert alert-info">
+
+                            No orders found.
+
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Footer -->
+<footer class="bg-dark text-white mt-5 py-4">
+
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-md-6">
+
+                <h5>Our Store</h5>
+
+                <p>
+                    Quality products at affordable prices
+                </p>
+
+            </div>
+
+            <div class="col-md-6 text-md-end">
+
+                <p>
+                    &copy; 2026 Our Store. All rights reserved.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</footer>
+
+{% endblock %}

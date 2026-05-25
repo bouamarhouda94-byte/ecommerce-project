@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart - Our Store</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">Our Store</a>
+            <div class="ms-auto">
+                <a href="{{ path('cart_show') }}" class="btn btn-outline-light">
+                    🛒 Cart ({{ cart.cartItems|length }})
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-5">
+        <h1 class="mb-4">🛒 My Cart</h1>
+
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">{{ message }}</div>
+        {% endfor %}
+
+        {% if cart.cartItems is empty %}
+            <div class="alert alert-info">
+                Your cart is empty!
+                <a href="{{ path('app_browse_categories') }}" class="alert-link">Continue Shopping</a>
+            </div>
+        {% else %}
+            <div class="card">
+                <div class="card-body">
+                    <table class="table table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Product</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Subtotal</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in cart.cartItems %}
+                            <tr>
+                                <td>
+                                    <strong>{{ item.product.name }}</strong>
+                                </td>
+                                <td>{{ item.price }} €</td>
+                                <td>
+                                    <span class="badge bg-secondary">{{ item.quantity }}</span>
+                                </td>
+                                <td>
+                                    <strong>{{ item.price * item.quantity }} €</strong>
+                                </td>
+                                <td>
+                                    <form action="{{ path('cart_remove', {id: item.product.id}) }}" method="POST">
+                                        <button type="submit" class="btn btn-danger btn-sm">
+                                            🗑️ Remove
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                        <tfoot>
+                            <tr class="table-success">
+                                <td colspan="3">
+                                    <strong>Total</strong>
+                                </td>
+                                <td colspan="2">
+                                    <strong class="fs-5">{{ cart.total() }} €</strong>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-between mt-4">
+                <a href="{{ path('app_browse_categories') }}" class="btn btn-outline-secondary">
+                    ← Continue Shopping
+                </a>
+
+                <form action="{{ path('cart_clear') }}" method="POST">
+                    <button type="submit" class="btn btn-warning"
+                        onclick="return confirm('Clear the entire cart?')">
+                        🗑️ Clear Cart
+                    </button>
+                </form>
+            </div>
+        {% endif %}
+    </div>
+
+    <footer class="bg-dark text-white mt-5 py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6"><h5>Our Store</h5></div>
+                <div class="col-md-6 text-md-end"><p>&copy; 2026 Our Store.</p></div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

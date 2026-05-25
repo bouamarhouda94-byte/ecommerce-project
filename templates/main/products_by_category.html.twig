@@ -1,0 +1,212 @@
+{# templates/category/products.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ category.name }} - Our Store
+{% endblock %}
+
+{% block body %}
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+    <div class="container">
+
+        <a class="navbar-brand" href="{{ path('home') }}">
+            Our Store
+        </a>
+
+        <div class="ms-auto d-flex align-items-center gap-3">
+
+            {% if app.user %}
+
+                <span class="text-white">
+                    Bienvenue, {{ app.user.email }} !
+                </span>
+
+                <a href="{{ path('app_logout') }}"
+                   class="btn btn-outline-danger btn-sm">
+
+                    Déconnexion
+
+                </a>
+
+            {% else %}
+
+                <a href="{{ path('app_login') }}"
+                   class="btn btn-outline-light btn-sm">
+
+                    Connexion
+
+                </a>
+
+                <a href="{{ path('app_register') }}"
+                   class="btn btn-light btn-sm">
+
+                    Inscription
+
+                </a>
+
+            {% endif %}
+
+            <a href="{{ path('cart_show') }}"
+               class="btn btn-outline-light btn-sm">
+
+                🛒 Cart
+
+            </a>
+
+        </div>
+
+    </div>
+
+</nav>
+
+<!-- Breadcrumb -->
+<div class="container mt-4">
+
+    <nav aria-label="breadcrumb">
+
+        <ol class="breadcrumb">
+
+            <li class="breadcrumb-item">
+
+                <a href="{{ path('app_browse_categories') }}"
+                   class="text-decoration-none">
+
+                    Categories
+
+                </a>
+
+            </li>
+
+            <li class="breadcrumb-item active">
+
+                {{ category.name }}
+
+            </li>
+
+        </ol>
+
+    </nav>
+
+</div>
+
+<!-- Category Banner -->
+<div class="container my-4">
+
+    <div class="p-5 mb-4 bg-primary bg-gradient text-white rounded-3">
+
+        <h1 class="display-4 fw-bold">
+
+            {{ category.name }}
+
+        </h1>
+
+        <p class="fs-5">
+
+            {{ category.description }}
+
+        </p>
+
+    </div>
+
+</div>
+
+<!-- Products -->
+<div class="container mb-5">
+
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+
+        {% for product in products %}
+
+            <div class="col">
+
+                <div class="card h-100 shadow-sm">
+
+                    <img src="{{ asset('images/item.png') }}"
+                         class="card-img-top"
+                         alt="{{ product.name }}">
+
+                    <div class="card-body">
+
+                        <span class="badge bg-primary mb-2">
+
+                            {{ category.name }}
+
+                        </span>
+
+                        <h5 class="card-title">
+
+                            {{ product.name }}
+
+                        </h5>
+
+                        <p class="card-text fw-bold text-success">
+
+                            {{ product.price }} €
+
+                        </p>
+
+                        <a href="{{ path('app_product_details', {
+                            id: product.id
+                        }) }}"
+                           class="btn btn-outline-primary">
+
+                            View Details
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        {% else %}
+
+            <div class="col-12">
+
+                <div class="alert alert-warning">
+
+                    Aucun produit dans cette catégorie.
+
+                </div>
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+<!-- Footer -->
+<footer class="bg-dark text-white mt-5 py-4">
+
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-md-6">
+
+                <h5>Our Store</h5>
+
+            </div>
+
+            <div class="col-md-6 text-md-end">
+
+                <p>
+                    &copy; 2026 Our Store.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</footer>
+
+{% endblock %}
